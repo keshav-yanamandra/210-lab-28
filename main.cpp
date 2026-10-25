@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <list>
 #include <algorithm>
+#include <numeric>
 
 
 #include "Goat.h"
@@ -26,6 +27,7 @@ bool older_than_limit(const Goat &g);
 bool name_matches(const Goat &g);
 bool at_max_age(const Goat &g);
 bool by_age(const Goat &a, const Goat &b);
+int add_age(int sum, const Goat &g);
 
 
 
@@ -63,7 +65,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 9) {
+    while (sel != 10) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -134,6 +136,21 @@ int main() {
                 break;
             }
 
+            //milestone 6
+            case 9: {
+                int totalAge = accumulate(trip.begin(), trip.end(), 0, add_age);
+
+                cout << "Total age: " << totalAge << "\n";
+
+                if (!trip.empty()) {
+                    double averageAge = (double)totalAge / trip.size();
+                    cout << "Average age: " << averageAge;
+                    cout << endl;
+                }
+
+                break;
+            }
+
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -156,13 +173,13 @@ int main_menu() {
     cout << "[6] Search for a goat by name\n";
     cout << "[7] Check for goat at maximum generated age\n";
     cout << "[8] Find oldest and youngest goat\n";
-    cout << "[9] Quit\n";
-    cout << endl;
+    cout << "[9] Total and average goat age\n";
+    cout << "[10] Quit\n";    cout << endl;
     
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 9) {
+    while (choice < 1 || choice > 10) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -231,4 +248,8 @@ bool at_max_age(const Goat &g) {
 
 bool by_age(const Goat &a, const Goat &b) {
     return a.get_age() < b.get_age();
+}
+
+int add_age(int sum, const Goat &g) {
+    return sum + g.get_age();
 }
