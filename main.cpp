@@ -28,6 +28,7 @@ bool name_matches(const Goat &g);
 bool at_max_age(const Goat &g);
 bool by_age(const Goat &a, const Goat &b);
 int add_age(int sum, const Goat &g);
+Goat add_age_goat(Goat g);
 
 
 
@@ -65,7 +66,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 10) {
+    while (sel != 11) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -151,6 +152,13 @@ int main() {
                 break;
             }
 
+            //milestone 7
+            case 10:
+                transform(trip.begin(), trip.end(), trip.begin(), add_age_goat);
+                cout << "Added goat age one year.\n";
+                display_trip(trip);
+                break;
+
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -174,12 +182,12 @@ int main_menu() {
     cout << "[7] Check for goat at maximum generated age\n";
     cout << "[8] Find oldest and youngest goat\n";
     cout << "[9] Total and average goat age\n";
-    cout << "[10] Quit\n";    cout << endl;
-    
+    cout << "[10] Age every goat by one year\n";
+    cout << "[11] Quit\n";    
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 10) {
+    while (choice < 1 || choice > 11) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -252,4 +260,10 @@ bool by_age(const Goat &a, const Goat &b) {
 
 int add_age(int sum, const Goat &g) {
     return sum + g.get_age();
+}
+
+//this was confuseing I had to return goat not the age
+Goat add_age_goat(Goat g) {
+    g.set_age(g.get_age() + 1);
+    return g;
 }
