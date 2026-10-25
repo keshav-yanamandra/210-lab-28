@@ -23,9 +23,13 @@ int main_menu();
 
 void list_with_for_each(list<Goat> trip);
 bool older_than_limit(const Goat &g);
+bool name_matches(const Goat &g);
+
 
 
 int ageLimit;
+string searchName;
+
 
 int main() {
     srand(time(0));
@@ -57,7 +61,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 6) {
+    while (sel != 7) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -84,6 +88,23 @@ int main() {
                 cout << count_if(trip.begin(), trip.end(), older_than_limit) << " goats are older than " << ageLimit << ".\n";
                 break;
 
+            //milestone 3
+            case 6: {
+                cout << "Enter goat name: ";
+                cin >> searchName;
+
+                list<Goat>::iterator it =
+                    find_if(trip.begin(), trip.end(), name_matches);
+
+                if (it != trip.end()) {
+                    cout << "Found: " << it->get_name() << " (" << it->get_age() << ", " << it->get_color() << ")\n";
+                }
+                else {
+                    cout << searchName << " not found.\n";
+                }
+
+                break;
+            }
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -102,11 +123,14 @@ int main_menu() {
     cout << "[3] List goats\n";
     cout << "[4] List goats with for_each\n";
     cout << "[5] Count goats older than an age\n";
-    cout << "[6] Quit\n";
+    cout << "[6] Search for a goat by name\n";
+    cout << "[7] Quit\n";
+    cout << endl;
+    
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 6) {
+    while (choice < 1 || choice > 7) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -164,3 +188,8 @@ void list_with_for_each(list<Goat> trip) {
 bool older_than_limit(const Goat &g) {
     return g.get_age() > ageLimit;
 }
+
+bool name_matches(const Goat &g) {
+    return g.get_name() == searchName;
+}
+
