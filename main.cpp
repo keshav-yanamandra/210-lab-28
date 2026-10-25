@@ -29,6 +29,7 @@ bool at_max_age(const Goat &g);
 bool by_age(const Goat &a, const Goat &b);
 int add_age(int sum, const Goat &g);
 Goat add_age_goat(Goat g);
+bool remove_less_than(const Goat &g);
 
 
 
@@ -66,7 +67,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 11) {
+    while (sel != 12) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -159,6 +160,19 @@ int main() {
                 display_trip(trip);
                 break;
 
+            //milestone 8!!!
+            case 11: {
+                cout << "Enter age: ";
+                cin >> ageLimit;
+
+                list<Goat>::iterator newEnd = remove_if(trip.begin(), trip.end(), remove_less_than);
+                trip.erase(newEnd, trip.end());
+
+                cout << "Removed goats younger than " << ageLimit << ".\n";
+                display_trip(trip);
+                break;
+            }
+
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -183,11 +197,13 @@ int main_menu() {
     cout << "[8] Find oldest and youngest goat\n";
     cout << "[9] Total and average goat age\n";
     cout << "[10] Age every goat by one year\n";
-    cout << "[11] Quit\n";    
+    cout << "[11] Remove goats younger than an age\n";
+    cout << "[12] Quit\n";
+
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 11) {
+    while (choice < 1 || choice > 12) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -266,4 +282,8 @@ int add_age(int sum, const Goat &g) {
 Goat add_age_goat(Goat g) {
     g.set_age(g.get_age() + 1);
     return g;
+}
+
+bool remove_less_than(const Goat &g) {
+    return g.get_age() < ageLimit;
 }
