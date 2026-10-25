@@ -25,6 +25,7 @@ void list_with_for_each(list<Goat> trip);
 bool older_than_limit(const Goat &g);
 bool name_matches(const Goat &g);
 bool at_max_age(const Goat &g);
+bool by_age(const Goat &a, const Goat &b);
 
 
 
@@ -62,7 +63,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 8) {
+    while (sel != 9) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -117,11 +118,28 @@ int main() {
                 }
                 break;
 
+            //milestone 5
+            case 8: {
+                if (!trip.empty()) {
+                    list<Goat>::iterator oldest = max_element(trip.begin(), trip.end(), by_age);
+                    list<Goat>::iterator youngest = min_element(trip.begin(), trip.end(), by_age);
+
+                    cout << "Oldest goat: " << oldest->get_name() << " (" << oldest->get_age() << ", " << oldest->get_color() << ")\n";
+                    cout << "Youngest goat: "<< youngest->get_name() << " ("<< youngest->get_age() << ", "<< youngest->get_color() << ")\n";
+                }
+                else {
+                    cout << "no goats.\n";
+                }
+
+                break;
+            }
+
             default:
                 cout << "Invalid selection.\n";
                 break;
         }
 
+        cout << endl;
         sel = main_menu();
     }
 
@@ -136,14 +154,15 @@ int main_menu() {
     cout << "[4] List goats with for_each\n";
     cout << "[5] Count goats older than an age\n";
     cout << "[6] Search for a goat by name\n";
-    cout << "[7] Check for goat at maximum age\n";
-    cout << "[8] Quit\n";
+    cout << "[7] Check for goat at maximum generated age\n";
+    cout << "[8] Find oldest and youngest goat\n";
+    cout << "[9] Quit\n";
     cout << endl;
     
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 8) {
+    while (choice < 1 || choice > 9) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -207,6 +226,9 @@ bool name_matches(const Goat &g) {
 }
 
 bool at_max_age(const Goat &g) {
-    return g.get_age() == MAX_AGE;
+    return g.get_age() >= MAX_AGE - 1;
 }
 
+bool by_age(const Goat &a, const Goat &b) {
+    return a.get_age() < b.get_age();
+}
