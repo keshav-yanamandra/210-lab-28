@@ -24,6 +24,7 @@ int main_menu();
 void list_with_for_each(list<Goat> trip);
 bool older_than_limit(const Goat &g);
 bool name_matches(const Goat &g);
+bool at_max_age(const Goat &g);
 
 
 
@@ -61,7 +62,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 7) {
+    while (sel != 8) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -105,13 +106,24 @@ int main() {
 
                 break;
             }
+
+            //milestone 4
+            case 7:
+                if (any_of(trip.begin(), trip.end(), at_max_age)) {
+                    cout << "There is a goat at maximum age.\n";
+                }
+                else {
+                    cout << "There are no goats at maximum age.\n";
+                }
+                break;
+
             default:
                 cout << "Invalid selection.\n";
                 break;
         }
+
         sel = main_menu();
     }
-    
 
     return 0;
 }
@@ -124,13 +136,14 @@ int main_menu() {
     cout << "[4] List goats with for_each\n";
     cout << "[5] Count goats older than an age\n";
     cout << "[6] Search for a goat by name\n";
-    cout << "[7] Quit\n";
+    cout << "[7] Check for goat at maximum age\n";
+    cout << "[8] Quit\n";
     cout << endl;
     
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 7) {
+    while (choice < 1 || choice > 8) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -191,5 +204,9 @@ bool older_than_limit(const Goat &g) {
 
 bool name_matches(const Goat &g) {
     return g.get_name() == searchName;
+}
+
+bool at_max_age(const Goat &g) {
+    return g.get_age() == MAX_AGE;
 }
 
