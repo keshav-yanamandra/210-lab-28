@@ -22,7 +22,10 @@ void display_trip(list<Goat> trip);
 int main_menu();
 
 void list_with_for_each(list<Goat> trip);
+bool older_than_limit(const Goat &g);
 
+
+int ageLimit;
 
 int main() {
     srand(time(0));
@@ -54,7 +57,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 5) {
+    while (sel != 6) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -74,6 +77,13 @@ int main() {
                 list_with_for_each(trip);
                 break;
 
+            //milestone 2
+            case 5:
+                cout << "Enter age: ";
+                cin >> ageLimit;
+                cout << count_if(trip.begin(), trip.end(), older_than_limit) << " goats are older than " << ageLimit << ".\n";
+                break;
+
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -91,11 +101,12 @@ int main_menu() {
     cout << "[2] Delete a goat\n";
     cout << "[3] List goats\n";
     cout << "[4] List goats with for_each\n";
-    cout << "[5] Quit\n";
+    cout << "[5] Count goats older than an age\n";
+    cout << "[6] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 5) {
+    while (choice < 1 || choice > 6) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -148,4 +159,8 @@ void list_with_for_each(list<Goat> trip) {
     for_each(trip.begin(), trip.end(), [](const Goat &g) {
         cout << g.get_name() << " (" << g.get_age() << ", " << g.get_color() << ")" << endl;
     });
+}
+
+bool older_than_limit(const Goat &g) {
+    return g.get_age() > ageLimit;
 }
